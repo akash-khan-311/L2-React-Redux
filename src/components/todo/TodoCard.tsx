@@ -1,4 +1,5 @@
-import { removeTodo } from "../../redux/features/todoSlice";
+import { useState } from "react";
+import { removeTodo, toggleTodo } from "../../redux/features/todoSlice";
 import { useAppDispatch } from "../../redux/hooks";
 import { Button } from "../ui/button";
 
@@ -8,17 +9,43 @@ type TodoCardProps = {
   description: string;
   priority?: string;
   isCompleted?: boolean;
+  time?: string;
 };
 
 const TodoCard = ({ todo }: { todo: TodoCardProps }) => {
   const dispatch = useAppDispatch();
+  const [isChecked, setIsChecked] = useState(false);
+
+  console.log(todo);
+
+  const handleCheckboxChange = () => {
+    setIsChecked(!isChecked);
+    dispatch(toggleTodo(todo.id));
+  };
   return (
     <div className="flex justify-between items-center bg-white p-3 rounded-md">
-      <input type="checkbox" name="" id="" />
-      <p className="font-semibold">{todo.title}</p>
-      <p> {todo.description}</p>
-
-      <p>Todo Time</p>
+      <input
+        onChange={handleCheckboxChange}
+        checked={isChecked}
+        type="checkbox"
+        className="peer sr-only opacity-0 "
+        id="toggle"
+      />
+      <label
+        htmlFor="toggle"
+        className="relative  flex h-6 w-11 cursor-pointer items-center rounded-full bg-gray-400 px-0.5 outline-gray-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow before:transition-transform before:duration-300 peer-checked:bg-green-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-green-500"
+      ></label>
+      <p className="font-semibold capitalize">{todo.title}</p>
+      <p className="capitalize"> {todo.description}</p>
+      <p className="capitalize">{todo.priority}</p>
+      <div>
+        {todo.isCompleted ? (
+          <p className="text-green-500">Done</p>
+        ) : (
+          <p className="text-red-500">Pending</p>
+        )}
+      </div>
+      <p>{todo.time}</p>
       <div className="flex gap-5">
         <Button
           variant={"destructive"}
@@ -39,7 +66,11 @@ const TodoCard = ({ todo }: { todo: TodoCardProps }) => {
             />
           </svg>
         </Button>
-        <Button variant={"default"}>
+        <Button
+          disabled={todo.isCompleted}
+          className="disabled:cursor-not-allowed"
+          variant={"default"}
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             fill="none"

@@ -14,10 +14,12 @@ import { Input } from "../ui/input";
 import { Label } from "../ui/label";
 import { useAppDispatch } from "../../redux/hooks";
 import { addTodo } from "../../redux/features/todoSlice";
+import PriorityDropdown from "../ui/PriorityDropdown";
 
 export function AddTodoModal() {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
+  const [priority, setPriority] = useState<"low" | "medium" | "high">("low");
 
   const dispatch = useAppDispatch();
 
@@ -32,6 +34,8 @@ export function AddTodoModal() {
       id: Math.random().toString(36).substring(2, 9),
       title: task,
       description,
+      priority,
+      time: new Date().toLocaleString(),
     };
     dispatch(addTodo(taskDetails));
   };
@@ -71,6 +75,17 @@ export function AddTodoModal() {
                 placeholder="Task Descriptions"
                 className="col-span-3"
               />
+            </div>
+            <div>
+              <div className="grid grid-cols-4 items-center gap-4">
+                <Label className="text-right">Priority</Label>
+                <div className="col-span-3">
+                  <PriorityDropdown
+                    onSelect={(value) => setPriority(value)}
+                    current={priority}
+                  />
+                </div>
+              </div>
             </div>
           </div>
           <DialogFooter>
