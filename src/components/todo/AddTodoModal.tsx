@@ -68,10 +68,10 @@ export function AddTodoModal() {
       <DialogTrigger asChild>
         <Button variant="default">Add Todo</Button>
       </DialogTrigger>
-      <DialogContent className="sm:max-w-[425px]">
+      <DialogContent className="sm:max-w-[425px] bg-white/10 backdrop-blur-xl text-white">
         <DialogHeader>
           <DialogTitle>Add Task</DialogTitle>
-          <DialogDescription>
+          <DialogDescription className="text-sm text-white">
             Add a new task to your todo list. You can also set a priority for
             the task.
           </DialogDescription>
@@ -86,7 +86,7 @@ export function AddTodoModal() {
                 onChange={(e) => setTask(e.target.value)}
                 id="title"
                 placeholder="Task Title"
-                className="col-span-3"
+                className="col-span-3 bg-white/10 backdrop-blur-xl text-white placeholder:text-white  focus:outline-none outline-none"
               />
             </div>
             <div className="grid grid-cols-4 items-center gap-4">
@@ -97,7 +97,7 @@ export function AddTodoModal() {
                 onChange={(e) => setDescription(e.target.value)}
                 id="descriptions"
                 placeholder="Task Descriptions"
-                className="col-span-3"
+                className="col-span-3 bg-white/10 backdrop-blur-xl text-white placeholder:text-white  focus:outline-none outline-none"
               />
             </div>
             <div>

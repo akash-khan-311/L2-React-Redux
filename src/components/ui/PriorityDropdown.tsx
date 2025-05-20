@@ -26,7 +26,7 @@ const PriorityDropdown = ({ onSelect, current }: PriorityDropdownProps) => {
     <DropdownMenu>
       <DropdownMenuTrigger asChild>
         <Button
-          className="border-2 w-1/2 h-full flex items-center justify-start px-4 py-3"
+          className="border-2 w-1/2 h-full flex items-center justify-start px-4 py-3 bg-white/30 "
           variant="ghost"
           size="icon"
         >

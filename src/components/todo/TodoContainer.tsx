@@ -1,3 +1,4 @@
+import { useState } from "react";
 import { useGetTodosQuery } from "../../redux/api/api";
 // import { useAppSelector } from "../../redux/hooks";
 import { AddTodoModal } from "./AddTodoModal";
@@ -5,7 +6,7 @@ import TodoCard from "./TodoCard";
 import { TodoFilter } from "./TodoFilter";
 
 type TTodoProps = {
-  id: string;
+  _id: string;
   title: string;
   description: string;
   priority?: string;
@@ -14,15 +15,16 @@ type TTodoProps = {
 };
 
 const TodoContainer = () => {
-  const { data, error, isLoading } = useGetTodosQuery(null);
+  const [priority, setPriority] = useState("");
+  const { data, error, isLoading } = useGetTodosQuery(priority);
 
-  console.log(data);
+  console.log(priority);
   // const { todos } = useAppSelector((state) =>
   //   state.todos ? state.todos : state.todos
   // );
   if (isLoading) {
     return (
-      <div className="flex justify-center items-center h-full text-white">
+      <div className="flex justify-center items-center text-white">
         <h1 className="text-4xl font-bold">Loading...</h1>
       </div>
     );
@@ -30,7 +32,7 @@ const TodoContainer = () => {
 
   if (error) {
     return (
-      <div className="flex justify-center items-center h-full text-white ">
+      <div className="flex justify-center items-center  text-white ">
         <h1 className="text-4xl font-bold">
           Something Went Wrong .. Please Try Again Later
         </h1>
@@ -39,19 +41,19 @@ const TodoContainer = () => {
   }
 
   const todos: TTodoProps[] = data?.data;
-  console.log(todos);
+
   return (
     <div className="">
       <div className="flex justify-between my-3">
         <AddTodoModal />
-        <TodoFilter />
+        <TodoFilter priority={priority} setPriority={setPriority} />
       </div>
 
-      <div className="bg-primary-gradient w-full h-full rounded-xl p-5 space-y-5">
+      <div className="bg-white/10 backdrop-blur-sm  w-full  rounded-xl p-5 space-y-5">
         {todos.length > 0 ? (
-          todos.map((todo) => <TodoCard todo={todo} key={todo.id} />)
+          todos.map((todo) => <TodoCard todo={todo} key={todo._id} />)
         ) : (
-          <div className="bg-white p-5 flex justify-center items-center rounded-md text-4xl font-bold">
+          <div className="bg-white/10 backdrop-blur-lg p-5 flex justify-center items-center rounded-md text-4xl font-bold text-white">
             There is no Task Pending
           </div>
         )}

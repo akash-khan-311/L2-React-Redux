@@ -5,7 +5,7 @@ type TContainerProps = {
 
 const Container = ({ children }: TContainerProps) => {
   return (
-    <div className="h-screen w-full max-w-7xl mx-auto px-3 md:px-0">
+    <div className=" h-[calc(100vh-80px)] w-full max-w-7xl mx-auto px-3 md:px-0">
       {children}
     </div>
   );
