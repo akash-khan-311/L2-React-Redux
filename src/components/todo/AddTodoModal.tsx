@@ -12,16 +12,18 @@ import {
 } from "../ui/dialog";
 import { Input } from "../ui/input";
 import { Label } from "../ui/label";
-import { useAppDispatch } from "../../redux/hooks";
-import { addTodo } from "../../redux/features/todoSlice";
+
 import PriorityDropdown from "../ui/PriorityDropdown";
+import { useAddTodoMutation } from "../../redux/api/api";
 
 export function AddTodoModal() {
   const [task, setTask] = useState("");
   const [description, setDescription] = useState("");
   const [priority, setPriority] = useState<"low" | "medium" | "high">("low");
+  const [addTodo, { data, isLoading, isError, isSuccess }] =
+    useAddTodoMutation();
 
-  const dispatch = useAppDispatch();
+  // const dispatch = useAppDispatch();
 
   const handleSubmit = (e: FormEvent) => {
     e.preventDefault();
@@ -31,14 +33,36 @@ export function AddTodoModal() {
     }
 
     const taskDetails = {
-      id: Math.random().toString(36).substring(2, 9),
       title: task,
       description,
       priority,
-      time: new Date().toLocaleString(),
+      isCompleted: false,
     };
-    dispatch(addTodo(taskDetails));
+
+    addTodo(taskDetails);
+    // dispatch(addTodo(taskDetails));
   };
+
+  if (isLoading) {
+    return (
+      <div className="flex justify-center items-center h-full text-white">
+        <h1 className="text-4xl font-bold">Loading...</h1>
+      </div>
+    );
+  }
+  if (isError) {
+    return (
+      <div className="flex justify-center items-center h-full text-white ">
+        <h1 className="text-4xl font-bold">
+          Something Went Wrong .. Please Try Again Later
+        </h1>
+      </div>
+    );
+  }
+
+  if (isSuccess) {
+    console.log(data);
+  }
   return (
     <Dialog>
       <DialogTrigger asChild>

@@ -23,7 +23,7 @@ const TodoCard = ({ todo }: { todo: TodoCardProps }) => {
     dispatch(toggleTodo(todo.id));
   };
   return (
-    <div className="flex justify-between items-center bg-white p-3 rounded-md">
+    <div className="flex flex-1  justify-between items-center bg-white p-3 rounded-md">
       <input
         onChange={handleCheckboxChange}
         checked={isChecked}
@@ -35,10 +35,21 @@ const TodoCard = ({ todo }: { todo: TodoCardProps }) => {
         htmlFor="toggle"
         className="relative  flex h-6 w-11 cursor-pointer items-center rounded-full bg-gray-400 px-0.5 outline-gray-400 transition-colors before:h-5 before:w-5 before:rounded-full before:bg-white before:shadow before:transition-transform before:duration-300 peer-checked:bg-green-500 peer-checked:before:translate-x-full peer-focus-visible:outline peer-focus-visible:outline-offset-2 peer-focus-visible:outline-gray-400 peer-checked:peer-focus-visible:outline-green-500"
       ></label>
-      <p className="font-semibold capitalize">{todo.title}</p>
-      <p className="capitalize"> {todo.description}</p>
-      <p className="capitalize">{todo.priority}</p>
-      <div>
+      <p className="font-semibold capitalize flex  flex-1 ml-4">{todo.title}</p>
+      <p className="capitalize flex  flex-1"> {todo.description}</p>
+      <div className="capitalize flex   flex-1 items-center gap-2">
+        <div
+          className={`h-3 w-3 rounded-full ${
+            todo.priority === "high"
+              ? "bg-red-500"
+              : todo.priority === "medium"
+              ? "bg-yellow-500"
+              : "bg-green-500"
+          }`}
+        />
+        <div>{todo.priority}</div>
+      </div>
+      <div className="capitalize flex  flex-1 items-center gap-2">
         {todo.isCompleted ? (
           <p className="text-green-500">Done</p>
         ) : (
